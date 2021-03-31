@@ -1,8 +1,8 @@
 {% extends '@WebProfiler/Collector/translation.html.twig' %}
 
 {#
- # Authors Tobias Nyholm, Damien Alexandre (damienalexandre), Damien Harper
- #}
+# Authors Tobias Nyholm, Damien Alexandre (damienalexandre), Damien Harper
+#}
 
 {% import _self as helper %}
 
@@ -48,9 +48,9 @@
     {% endfor %}
 
     <form action="{{ path('php_translation_profiler_translation_create_assets', {'token': token}) }}" method="post"
-        id="translations-list" onSubmit="return saveTranslations(this);" >
+          id="translations-list" onSubmit="return saveTranslations(this);" >
 
-            {{ helper.render_table(messages, true) }}
+        {{ helper.render_table(messages, true) }}
 
         <p class="full-width" id="translationResult"></p>
 
@@ -65,6 +65,7 @@
     <table>
         <thead>
         <tr>
+            <th></th>
             {% if withCheckbox %}
                 <th>
                     <input type="checkbox" id="check-all-control" onchange="toggleCheckAll(this)" checked="checked">
@@ -81,11 +82,14 @@
         <tbody>
         {% for key, message in messages %}
             <tr id="{{ key }}">
-                <td>
-                    {% if withCheckbox %}
-                        <input type="checkbox" name="translationKey" value="{{ key }}" checked="checked" class="translation-key-checkbox">
-                    {% endif %}
+                <td class="key">
+                    <textarea style="display: none;">{{ key }}</textarea>
                 </td>
+                {% if withCheckbox %}
+                    <td>
+                        <input type="checkbox" name="translationKey" value="{{ key }}" checked="checked" class="translation-key-checkbox">
+                    </td>
+                {% endif %}
                 <td class="font-normal text-small">{{ message.locale }}</td>
                 <td class="font-normal text-small text-bold nowrap">{{ message.domain }}</td>
                 <td class="font-normal text-small">{{ message.count }}</td>
@@ -112,9 +116,9 @@
                 </td>
                 <td width="155px">
                     {% apply spaceless %}
-                    <a class="edit btn btn-sm" href="javascript:void(0);" onclick='getEditForm("{{ key }}")'>Edit</a>
+                        <a class="edit btn btn-sm" href="javascript:void(0);" onclick="getEditForm(this)">Edit</a>
                         |
-                    <a class="sync btn btn-sm" href="javascript:void(0);" onclick='syncMessage("{{ key }}")'>Sync</a>
+                        <a class="sync btn btn-sm" href="javascript:void(0);" onclick="syncMessage(this)">Sync</a>
                     {% endapply %}
                 </td>
             </tr>
